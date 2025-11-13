@@ -61,7 +61,7 @@ export default {
                     embedString = "{{[[iframe]]: https://assets.pinterest.com/ext/embed.html?id=" + code[1] + "}}";
                 } else if (audioRegex.test(clipText)) { // audio
                     embedString = "{{[[audio]]: " + clipText + "}}";
-                } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf@dropbox
+                } else if (dropboxPdfRegex.test(clipText) { // pdf@dropbox
                     embedString = "{{pdf: " + clipText.replace(/(\?|&)dl=0, '$1raw=1') + "}}";
                 } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf
                     embedString = "{{pdf: " + clipText + "}}";
@@ -94,3 +94,4 @@ function isUrl(s) {
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
