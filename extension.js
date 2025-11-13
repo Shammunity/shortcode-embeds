@@ -24,6 +24,7 @@ export default {
             const tiktokRegex = /\.+tiktok\.com.*?\/video\/(.*)\/?/;
             const audioRegex = /^https?:\/\/(.+\/)+.+(\.(mp3|wav|aiff|aac|ogg|wma|flac|alac))$/;
             const figmaRegex = /https:\/\/([\w\.-]+\.)?figma.com\/(file|proto)\/([0-9a-zA-Z]{22,128})(?:\/.*)?$/;
+            const dropboxPdfRegex = /^https?:\/\/(www\.)?dropbox\.com\/s(?:cl)?\/[^/]+\/[^?]+\.pdf(\?.*)?(&dl=0)$;
             const websiteRegex = /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
             var embedString;
             var embedState = true;
@@ -60,6 +61,8 @@ export default {
                     embedString = "{{[[iframe]]: https://assets.pinterest.com/ext/embed.html?id=" + code[1] + "}}";
                 } else if (audioRegex.test(clipText)) { // audio
                     embedString = "{{[[audio]]: " + clipText + "}}";
+                } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf@dropbox
+                    embedString = "{{pdf: " + clipText.replace(/(\?|&)dl=0, '$1raw=1') + "}}";
                 } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf
                     embedString = "{{pdf: " + clipText + "}}";
                 } else if (figmaRegex.test(clipText)) { // figma
@@ -91,3 +94,4 @@ function isUrl(s) {
 async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
