@@ -25,6 +25,7 @@ export default {
             const audioRegex = /^https?:\/\/(.+\/)+.+(\.(mp3|wav|aiff|aac|ogg|wma|flac|alac))$/;
             const figmaRegex = /https:\/\/([\w\.-]+\.)?figma.com\/(file|proto)\/([0-9a-zA-Z]{22,128})(?:\/.*)?$/;
             const websiteRegex = /(https?:\/\/)?(www\.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)|(https?:\/\/)?(www\.)?(?!ww)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+            const dropboxPdfRegex = /^https?:\/\/(www\.)?dropbox\.com\/s(?:cl)?\/[^/]+\/[^?]+\.pdf(\?.*)?(&dl=0)$;
             var embedString;
             var embedState = true;
 
@@ -62,6 +63,8 @@ export default {
                     embedString = "{{[[audio]]: " + clipText + "}}";
                 } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf
                     embedString = "{{pdf: " + clipText + "}}";
+                } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf@dropbox
+                    embedString = "{{pdf: " + clipText.replace(/(\?|&)dl=0, '$1raw=1') + "}}";
                 } else if (figmaRegex.test(clipText)) { // figma
                     embedString = "{{figma: " + clipText + "}}";
                 } else if (websiteRegex.test(clipText)) { // iframe for website
