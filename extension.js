@@ -64,7 +64,7 @@ export default {
                 } else if (clipText.match(/^https?:\/\/(.+\/)+.+(\.(pdf))$/)) { // pdf
                     embedString = "{{pdf: " + clipText + "}}";
                 } else if (dropboxPdfRegex.test(clipText)) { // pdf@dropbox
-                    embedString = "{{pdf: " + clipText.replace(/(\?|&)dl=0, '$1raw=1') + "}}";
+                    embedString = "{{pdf: " + clipText.replace(/(\?|&)dl=0/, '$1raw=1') + "}}";
                 } else if (figmaRegex.test(clipText)) { // figma
                     embedString = "{{figma: " + clipText + "}}";
                 } else if (websiteRegex.test(clipText)) { // iframe for website
